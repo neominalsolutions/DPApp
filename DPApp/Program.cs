@@ -75,3 +75,47 @@ Product p1 = new ProductBuilder()
 
 #endregion
 
+
+#region Prototype
+
+Customer c = new Customer();
+c.Name = "Ali";
+c.Adddres = new Address();
+c.Adddres.Text = "İstanbul";
+
+// aynı nesnenin farklı bir nesne instance olarak kopyalanamasını sağlar.
+Customer c2 = (Customer)c.Clone();
+
+if(c == c2)
+{
+
+}
+
+c.GetHashCode();
+c2.GetHashCode();
+
+Console.Write(c2.Name);
+Console.WriteLine(c2.Adddres?.Text);
+
+
+
+PrototypeRegister<Employee> prototypeRegister = new PrototypeRegister<Employee>();
+Employee a = new Employee();
+a.Name = "Mustafa";
+Employee emp2 = a.Clone();
+emp2.Name = "Cenk";
+
+if(emp2 == a)
+{
+
+}
+
+Console.WriteLine(c.GetHashCode());
+Console.WriteLine(c2.GetHashCode());
+
+//prototypeRegister.Register("employee", a);
+//IClonable<Employee> e2 = prototypeRegister.Clone("employee");
+
+
+
+#endregion
