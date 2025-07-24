@@ -14,10 +14,10 @@ namespace DPApp.Creational
 
   public class Product
   {
-    public string Name { get; init; } // code defensing
+    public string? Name { get; init; } // code defensing
     public decimal Price { get; init; }
 
-    public Product(string name,decimal price)
+    public Product(string? name,decimal price)
     {
       Name = name;
       Price = price;
@@ -27,16 +27,16 @@ namespace DPApp.Creational
 
   public class ProductBuilder : IBuilder<Product>
   {
-    private string _name;
+    private string? _name;
     private decimal _price;
     public Product Build()
     {
       return new Product(_name, _price);
     }
 
-    public ProductBuilder SetName(string name)
+    public ProductBuilder SetName(string? name)
     {
-      ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
+      ArgumentException.ThrowIfNullOrWhiteSpace(name);
       _name = name;
       return this;
     }
