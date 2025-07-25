@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DPApp.Creational;
 using DPApp.Cretional;
+using DPApp.Structural;
 
 Console.WriteLine("Hello, World!");
 
@@ -115,6 +116,78 @@ Console.WriteLine(c2.GetHashCode());
 
 //prototypeRegister.Register("employee", a);
 //IClonable<Employee> e2 = prototypeRegister.Clone("employee");
+
+
+
+#endregion
+
+
+#region StructuralPatterns
+
+SmartDoor sm = new SmartDoor();
+
+SmartRemoteAccess smartRemoteAccess = new SmartRemoteAccess(sm);
+smartRemoteAccess.Open();
+smartRemoteAccess.Close();
+
+SwitchLight light = new SwitchLight();
+
+smartRemoteAccess = new SmartRemoteAccess(light);
+smartRemoteAccess.Open();
+smartRemoteAccess.Close();
+
+
+#endregion
+
+#region Composite
+
+Folder f = new Folder("a");
+Folder c1 = new Folder("c");
+DPApp.Structural.File f1 = new DPApp.Structural.File("c.txt");
+// + A
+//     + B
+//        + c.txt
+c1.Add(f1);
+f.Add(c1);
+
+
+
+
+#endregion
+
+#region FlyWeight
+
+
+Game gm = new Game();
+gm.CreateAtli(5);
+gm.CreateOkcu(10);
+gm.CreateSuvari(2);
+
+Console.WriteLine("Instance Count "  + gm.GetSoldierInstanceCount);
+
+#endregion
+
+
+#region Proxy
+
+// 1. versiyon kod
+RealService realService = new RealService();
+// realService.HandleRequest();
+
+// revize talebi geldi .Bazı güvenlik önemleri alıp request loglayalım
+RealServiceProxy realServiceProxy = new RealServiceProxy(realService, new TextLogger());
+realServiceProxy.Execute();
+
+#endregion
+
+#region Decorator
+
+Invoice i = new Invoice();
+
+ElectricInvoiceDecorator id = new ElectricInvoiceDecorator(new InvoiceDecorator(i));
+id.energyConsumptionCost = 10;
+Console.WriteLine("Sonuc " + id.Calculate());
+
 
 
 
