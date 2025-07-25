@@ -1,7 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using DPApp.Behavioral;
 using DPApp.Creational;
 using DPApp.Cretional;
 using DPApp.Structural;
+using DPApp.UI;
 
 Console.WriteLine("Hello, World!");
 
@@ -187,6 +189,88 @@ Invoice i = new Invoice();
 ElectricInvoiceDecorator id = new ElectricInvoiceDecorator(new InvoiceDecorator(i));
 id.energyConsumptionCost = 10;
 Console.WriteLine("Sonuc " + id.Calculate());
+
+#endregion
+
+
+#region Visitor
+
+Rect rect = new Rect();
+rect.CornerOne = 10;
+rect.CornerTwo = 20;
+
+// nesneyi oluştur hesaplama için visitor oluştur ve Accept methoduna visitor gönder.
+RectAreaCalculatorVisitor visitor = new RectAreaCalculatorVisitor();
+RectAreaPerimeterVisitor rectAreaPerimeterVisitor = new RectAreaPerimeterVisitor();
+
+rect.Accept(visitor);
+rect.Accept(rectAreaPerimeterVisitor);
+
+
+#endregion
+
+
+#region Record
+
+var money = new Money(100, "$");
+var money2 = money with { amount = 300 };
+
+// nakit butonu
+var paymentService = new PaymentService(new CashPayment());
+CashPaymentRequestHandler request1 = new CashPaymentRequestHandler(paymentService);
+request1.Handle();
+
+// job ile 12.10.2025 de tetiklenecek kod
+var paymentService2 = new PaymentService(new AutoPaymentInstruction());
+AutoPaymentInstructionHandler request2 = new AutoPaymentInstructionHandler(paymentService2);
+request2.Handle();
+
+
+
+#endregion
+
+#region ChainofResponsibility
+
+// aynı requesti kullanmak zorundalar 
+
+var ahandler = new AHandler();
+var bhandler = new BHandler();
+var chandler = new CHandler();
+ahandler.NextHandler(bhandler).NextHandler(chandler);
+
+// Handle en sonra çağıralım !.
+ahandler.Handle(new HandlerRequest());
+
+#endregion
+
+
+#region Command
+
+CommandExecutor executor = new CommandExecutor();
+executor.AddCommand(new SaveComand());
+executor.AddCommand(new CancelComand());
+
+executor.SetCommand(new ApplyComand());
+executor.Apply();
+
+// tüm komutaları çalıştır.
+executor.Execute();
+
+
+#endregion
+
+
+#region Observer 
+
+var sub1 = new Subscriber1();
+var sub2 = new Subscriber2();
+
+var pub = new Publisher();
+pub.Register(sub1);
+pub.Register(sub2);
+
+pub.Notify();
+
 
 
 
